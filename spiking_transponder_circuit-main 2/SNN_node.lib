@@ -1,0 +1,34 @@
+.subckt SNN_node IN OUT v1 v2 GND   * Add this line, inverter_035_1 must match the .asy filename 
+* Z:\home\whit\projects\hydra\SNN_TOF\SNN_node.asc
+T1 v1 0 N009 0 Td=5n Z0=50
+R1 N009 0 50
+R2 N009 N007 10k
+L1 N007 bias1 5n
+T2 v2 0 N010 0 Td=5n Z0=50
+R3 N010 0 50
+R4 N010 N008 10k
+L2 N008 OUT 5n
+Lb1 N002 N004 {L1 - (sq_g+sq_s2)*1.38p*(sheetRes/Tc)}
+XU1 N004 OUT 0 NC_01 NC_02 NC_03 NC_04 ntron_r ntron_r width_g={width_g} width_s={width_s} width_d={width_d} width_c={width_c} sq_g={sq_g} sq_d={sq_tot_nt2-sq_s2} sq_s={sq_s2} sq_c={sq_c} thickness={thickness} sheetRes={sheetRes} Tc={Tc} Tsub={Tsub} Jc={Jc} A1={A1}
+R5 N003 0 {R_sh}
+L3 bias1 N003 5n
+R6 bias1 N002 {2.0*R_loop}
+XU2 N006 bias1 0 NC_05 NC_06 NC_07 NC_08 ntron_r ntron_r width_g={width_g} width_s={width_s} width_d={width_d} width_c={width_c} sq_g=10 sq_d={sq_d} sq_s={sq_s} sq_c={sq_c} thickness={thickness} sheetRes={sheetRes} Tc={Tc} Tsub={Tsub} Jc={Jc} A1={A1}
+L4 OUT N001 5n
+R7 N001 0 {R_sh}
+L6 N005 N006 5n
+R9 N005 IN 20
+.tran 0 400n 0 1p
+* .ic i(Lb1)=5u
+.param width_g={20n/S} width_s={200n/S} width_d={200n/S} width_c={250n/S} sq_g={5/S} sq_d={400/S} sq_s={80/S} sq_c={10/S} thickness=19n sheetRes=130 Tc=8.5 Tsub=4.3 Jc=40G A1=0.4
+.param R_sh={3/S} R_loop={2/S}
+* .param width_g=9.78n width_s=200n width_d=200n width_c=108n sq_g=20 sq_d=200 sq_s=22 sq_c=10 thickness=20n sheetRes=400 Tc=10.5 Tsub=4 Jc=46G A1=0.4
+.param sq_s2={80}
+.param sq_tot_nt2={400/S+80}
+.param L1={150n}
+.param S1=1
+.param S = {S1**2/(0.6+0.4*S1)}
+.lib ntron_2.lib
+.backanno
+.end
+.end SNN_node
